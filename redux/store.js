@@ -3,12 +3,12 @@ import { createStore, applyMiddleware, combineReducers } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunkMiddleware from "redux-thunk";
 
-// import hamaPenyakitReducers from "./hama-penyakit/reducers";
+import guruReducers from "./guru/reducers";
 
 let store;
 
 const reducers = combineReducers({
-  // hamaPenyakitReducers,
+  guruReducers,
 });
 
 function initStore(initialState) {

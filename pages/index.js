@@ -1,8 +1,47 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
 import Header from "../components/Header";
+import { login } from "../services/auth";
+import Cookies from "js-cookie";
+import Swal from "sweetalert2";
 
 const SignIn = () => {
+  const router = useRouter();
+
+  const [form, setForm] = useState({
+    username: "",
+    password: "",
+    role: "",
+  });
+
+  const handleSubmit = async () => {
+    if (form?.role !== "") {
+      const response = await login(form, form?.role);
+      if (response?.data?.statusCode === 200) {
+        Cookies.set("token", response?.data?.data?.token);
+        router.push("/dashboard");
+        Swal.fire({
+          icon: "success",
+          title: "Sukses",
+          text: `${response?.data?.message || "Berhasil login!"}`,
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `${response?.data?.message || "Nampaknya terjadi kesalahan!"}`,
+        });
+      }
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `Silahkan pilih masuk sebagai siapa`,
+      });
+    }
+  };
+
   return (
     <>
       <Header title="Masuk" />
@@ -37,6 +76,9 @@ const SignIn = () => {
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="Username"
+                  onChange={(event) =>
+                    setForm({ ...form, username: event.target.value })
+                  }
                 />
               </div>
               <div>
@@ -50,6 +92,9 @@ const SignIn = () => {
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="Password"
+                  onChange={(event) =>
+                    setForm({ ...form, password: event.target.value })
+                  }
                 />
               </div>
               <div>
@@ -57,13 +102,14 @@ const SignIn = () => {
                   Masuk sebagai
                 </label>
                 <select
+                  onChange={(event) =>
+                    setForm({ ...form, role: event.target.value })
+                  }
                   name="role"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 >
-                  <option value="" selected disabled>
-                    -Masuk sebagai-
-                  </option>
+                  <option value="">Masuk sebagai</option>
                   <option value="admin">Admin</option>
                   <option value="guru">Guru</option>
                   <option value="siswa">Siswa</option>
@@ -74,6 +120,7 @@ const SignIn = () => {
 
             <div>
               <button
+                onClick={handleSubmit}
                 type="button"
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
@@ -103,3 +150,18 @@ const SignIn = () => {
 };
 
 export default SignIn;
+
+export async function getServerSideProps({ req }) {
+  const { token } = req.cookies;
+  if (token)
+    return {
+      redirect: {
+        destination: "/dashboard",
+        permanent: false,
+      },
+    };
+
+  return {
+    props: {},
+  };
+}

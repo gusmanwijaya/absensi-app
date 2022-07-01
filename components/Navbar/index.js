@@ -125,7 +125,10 @@ export default function Navbar() {
       style={{ backgroundColor: "#646FD4" }}
     >
       <div className="flex-1">
-        <a className="btn btn-ghost normal-case text-xl hover:bg-transparent">
+        <a
+          type="button"
+          className="btn btn-ghost normal-case text-xl hover:bg-transparent"
+        >
           Sistem Informasi Absensi
         </a>
       </div>
@@ -192,6 +195,14 @@ export default function Navbar() {
             <Link href="/absensi">
               <button className="btn hover:bg-transparent btn-ghost capitalize">
                 Absensi
+              </button>
+            </Link>
+          </li>
+
+          <li>
+            <Link href="/ubah-password">
+              <button className="btn hover:bg-transparent btn-ghost capitalize">
+                Ubah Password
               </button>
             </Link>
           </li>
