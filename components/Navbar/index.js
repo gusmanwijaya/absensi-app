@@ -195,13 +195,22 @@ export default function Navbar() {
           )}
 
           {guru?.role !== "" && guru?.role === "guru" && (
-            <li>
-              <Link href="/absensi-guru">
-                <button className="btn hover:bg-transparent btn-ghost capitalize">
-                  Absensi
-                </button>
-              </Link>
-            </li>
+            <>
+              <li>
+                <Link href="/absensi-guru">
+                  <button className="btn hover:bg-transparent btn-ghost capitalize">
+                    Absensi
+                  </button>
+                </Link>
+              </li>
+              <li>
+                <Link href="/history-absensi">
+                  <button className="btn hover:bg-transparent btn-ghost capitalize">
+                    History
+                  </button>
+                </Link>
+              </li>
+            </>
           )}
 
           {siswa?.role !== "" && siswa?.role === "siswa" && (

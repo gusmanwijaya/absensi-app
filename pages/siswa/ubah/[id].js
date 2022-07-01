@@ -72,8 +72,8 @@ const Ubah = ({ kelas, jurusan, dataMataPelajaran, oneData, params }) => {
         agama: oneData?.agama || "",
         alamat: oneData?.alamat || "",
         noHp: oneData?.noHp || "",
-        kelas: oneData?.kelas?.nama || "",
-        jurusan: oneData?.jurusan?.nama || "",
+        kelas: oneData?.kelas?._id || "",
+        jurusan: oneData?.jurusan?._id || "",
         mataPelajaran: JSON.stringify(_tempIdMapel) || "",
         username: oneData?.username || "",
       });
