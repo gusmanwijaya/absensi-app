@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import Content from "../../components/Content";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
+import Content from "../../../components/Content";
 import { MultiSelect } from "react-multi-select-component";
 import { useRouter } from "next/router";
-import { getForSelectMataPelajaran, create } from "../../services/guru";
+import { getForSelect, update, getOne } from "../../../services/siswa";
 import jwtDecode from "jwt-decode";
 import Swal from "sweetalert2";
 
-const Tambah = ({ dataMataPelajaran }) => {
+const Ubah = ({ kelas, jurusan, dataMataPelajaran, oneData, params }) => {
   const router = useRouter();
 
   let _tempForOptionsMataPelajaran = [];
@@ -21,16 +22,63 @@ const Tambah = ({ dataMataPelajaran }) => {
   const [showValueMataPelajaran, setShowValueMataPelajaran] = useState([]);
 
   const [form, setForm] = useState({
-    nip: "",
+    nisn: "",
     nama: "",
     jenisKelamin: "",
     agama: "",
     alamat: "",
     noHp: "",
+    kelas: "",
+    jurusan: "",
     mataPelajaran: "",
     username: "",
-    password: "",
   });
+
+  useEffect(() => {
+    if (Object.keys(oneData).length > 0) {
+      let _tempIdMapel = [];
+
+      let _idMataPelajaran = [];
+      oneData?.mataPelajaran.forEach((_idMapel) => {
+        _idMataPelajaran.push(_idMapel?._id);
+      });
+
+      if (_idMataPelajaran.length > 0) {
+        let updateForShowValueMataPelajaran = [];
+        optionsMataPelajaran.forEach((element) => {
+          _idMataPelajaran.forEach((result) => {
+            if (element?.value === result) {
+              updateForShowValueMataPelajaran.push({
+                label: element?.label,
+                value: element?.value,
+              });
+            }
+          });
+        });
+
+        if (updateForShowValueMataPelajaran.length > 0) {
+          setShowValueMataPelajaran(updateForShowValueMataPelajaran);
+          updateForShowValueMataPelajaran.forEach((idMapel) => {
+            _tempIdMapel.push(idMapel?.value);
+          });
+        }
+      }
+
+      setForm({
+        ...form,
+        nisn: oneData?.nisn || "",
+        nama: oneData?.nama || "",
+        jenisKelamin: oneData?.jenisKelamin || "",
+        agama: oneData?.agama || "",
+        alamat: oneData?.alamat || "",
+        noHp: oneData?.noHp || "",
+        kelas: oneData?.kelas?.nama || "",
+        jurusan: oneData?.jurusan?.nama || "",
+        mataPelajaran: JSON.stringify(_tempIdMapel) || "",
+        username: oneData?.username || "",
+      });
+    }
+  }, []);
 
   const handleMultipleSelectMataPelajaran = (data) => {
     setShowValueMataPelajaran(data);
@@ -44,13 +92,13 @@ const Tambah = ({ dataMataPelajaran }) => {
   };
 
   const handleSubmit = async () => {
-    const response = await create(form);
-    if (response?.data?.statusCode === 201) {
-      router.push("/guru");
+    const response = await update(params?.id, form);
+    if (response?.data?.statusCode === 200) {
+      router.push("/siswa");
       Swal.fire({
         icon: "success",
         title: "Sukses",
-        text: `${response?.data?.message || "Berhasil menambahkan data!"}`,
+        text: `${response?.data?.message || "Berhasil mengubah data!"}`,
       });
     } else {
       Swal.fire({
@@ -62,21 +110,22 @@ const Tambah = ({ dataMataPelajaran }) => {
   };
 
   return (
-    <Content title="Tambah">
+    <Content title="Ubah">
       <div className="max-w-2xl mx-auto">
         <div className="relative z-0 mb-6 w-full group">
           <label
-            htmlFor="nip"
+            htmlFor="nisn"
             className="block text-sm font-medium text-gray-400 mb-2"
           >
-            NIP
+            NISN
           </label>
           <input
             type="text"
-            name="nip"
+            name="nisn"
             className="input input-bordered w-full"
             required
-            onChange={(event) => setForm({ ...form, nip: event.target.value })}
+            onChange={(event) => setForm({ ...form, nisn: event.target.value })}
+            value={form?.nisn}
           />
         </div>
         <div className="relative z-0 mb-6 w-full group">
@@ -92,6 +141,7 @@ const Tambah = ({ dataMataPelajaran }) => {
             className="input input-bordered w-full"
             required
             onChange={(event) => setForm({ ...form, nama: event.target.value })}
+            value={form?.nama}
           />
         </div>
         <div className="relative z-0 mb-6 w-full group">
@@ -111,8 +161,18 @@ const Tambah = ({ dataMataPelajaran }) => {
             }
           >
             <option value="">Pilih jenis kelamin</option>
-            <option value="L">Laki-laki</option>
-            <option value="P">Perempuan</option>
+            <option
+              value="L"
+              selected={oneData?.jenisKelamin === "L" ? true : false}
+            >
+              Laki-laki
+            </option>
+            <option
+              value="P"
+              selected={oneData?.jenisKelamin === "P" ? true : false}
+            >
+              Perempuan
+            </option>
           </select>
         </div>
         <div className="relative z-0 mb-6 w-full group">
@@ -130,6 +190,7 @@ const Tambah = ({ dataMataPelajaran }) => {
             onChange={(event) =>
               setForm({ ...form, agama: event.target.value })
             }
+            value={form?.agama}
           />
         </div>
         <div className="relative z-0 mb-6 w-full group">
@@ -145,6 +206,7 @@ const Tambah = ({ dataMataPelajaran }) => {
             onChange={(event) =>
               setForm({ ...form, alamat: event.target.value })
             }
+            value={form?.alamat}
           />
         </div>
         <div className="relative z-0 mb-6 w-full group">
@@ -160,7 +222,66 @@ const Tambah = ({ dataMataPelajaran }) => {
             className="input input-bordered w-full"
             required
             onChange={(event) => setForm({ ...form, noHp: event.target.value })}
+            value={form?.noHp}
           />
+        </div>
+        <div className="relative z-0 mb-6 w-full group">
+          <label
+            htmlFor="kelas"
+            className="block text-sm font-medium text-gray-400 mb-2"
+          >
+            Kelas
+          </label>
+          <select
+            type="text"
+            name="kelas"
+            className="input input-bordered w-full"
+            required
+            onChange={(event) =>
+              setForm({ ...form, kelas: event.target.value })
+            }
+          >
+            <option value="">Pilih kelas</option>
+            {kelas.length > 0 &&
+              kelas.map((value, index) => (
+                <option
+                  key={index}
+                  value={value?._id}
+                  selected={oneData?.kelas?._id === value?._id ? true : false}
+                >
+                  {value?.nama}
+                </option>
+              ))}
+          </select>
+        </div>
+        <div className="relative z-0 mb-6 w-full group">
+          <label
+            htmlFor="jurusan"
+            className="block text-sm font-medium text-gray-400 mb-2"
+          >
+            Jurusan
+          </label>
+          <select
+            type="text"
+            name="jurusan"
+            className="input input-bordered w-full"
+            required
+            onChange={(event) =>
+              setForm({ ...form, jurusan: event.target.value })
+            }
+          >
+            <option value="">Pilih jurusan</option>
+            {jurusan.length > 0 &&
+              jurusan.map((value, index) => (
+                <option
+                  key={index}
+                  value={value?._id}
+                  selected={oneData?.jurusan?._id === value?._id ? true : false}
+                >
+                  {value?.nama}
+                </option>
+              ))}
+          </select>
         </div>
         <div className="relative mb-6 w-full group">
           <label
@@ -191,28 +312,12 @@ const Tambah = ({ dataMataPelajaran }) => {
             onChange={(event) =>
               setForm({ ...form, username: event.target.value })
             }
-          />
-        </div>
-        <div className="relative z-0 mb-6 w-full group">
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-400 mb-2"
-          >
-            Password
-          </label>
-          <input
-            type="password"
-            name="password"
-            className="input input-bordered w-full"
-            required
-            onChange={(event) =>
-              setForm({ ...form, password: event.target.value })
-            }
+            value={form?.username}
           />
         </div>
         <div className="flex flex-row justify-between">
           <button
-            onClick={() => router.push("/guru")}
+            onClick={() => router.push("/siswa")}
             type="button"
             className="btn btn-ghost btn-sm hover:bg-transparent capitalize"
           >
@@ -223,7 +328,7 @@ const Tambah = ({ dataMataPelajaran }) => {
             onClick={handleSubmit}
             className="btn btn-primary btn-sm capitalize"
           >
-            Tambah
+            Ubah
           </button>
         </div>
       </div>
@@ -231,9 +336,9 @@ const Tambah = ({ dataMataPelajaran }) => {
   );
 };
 
-export default Tambah;
+export default Ubah;
 
-export async function getServerSideProps({ req }) {
+export async function getServerSideProps({ req, params }) {
   const { token } = req.cookies;
   if (!token)
     return {
@@ -253,11 +358,16 @@ export async function getServerSideProps({ req }) {
     };
   }
 
-  const response = await getForSelectMataPelajaran(token);
+  const responseOneData = await getOne(params?.id, token);
+  const response = await getForSelect(token);
 
   return {
     props: {
-      dataMataPelajaran: response?.data?.data || [],
+      oneData: responseOneData?.data?.data || {},
+      params,
+      kelas: response?.data?.data?.kelas || [],
+      jurusan: response?.data?.data?.jurusan || [],
+      dataMataPelajaran: response?.data?.data?.mataPelajaran || [],
     },
   };
 }

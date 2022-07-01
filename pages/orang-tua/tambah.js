@@ -2,43 +2,40 @@ import React, { useState } from "react";
 import Content from "../../components/Content";
 import { MultiSelect } from "react-multi-select-component";
 import { useRouter } from "next/router";
-import { getForSelectMataPelajaran, create } from "../../services/guru";
+import { getForSelect, create } from "../../services/orang-tua";
 import jwtDecode from "jwt-decode";
 import Swal from "sweetalert2";
 
-const Tambah = ({ dataMataPelajaran }) => {
+const Tambah = ({ dataSiswa }) => {
   const router = useRouter();
 
-  let _tempForOptionsMataPelajaran = [];
-  dataMataPelajaran.forEach((element) => {
-    _tempForOptionsMataPelajaran.push({
+  let _tempForOptionsSiswa = [];
+  dataSiswa.forEach((element) => {
+    _tempForOptionsSiswa.push({
       label: element?.nama,
       value: element?._id,
     });
   });
-  const optionsMataPelajaran = _tempForOptionsMataPelajaran;
+  const optionsSiswa = _tempForOptionsSiswa;
 
-  const [showValueMataPelajaran, setShowValueMataPelajaran] = useState([]);
+  const [showValueSiswa, setShowValueSiswa] = useState([]);
 
   const [form, setForm] = useState({
-    nip: "",
     nama: "",
-    jenisKelamin: "",
-    agama: "",
     alamat: "",
     noHp: "",
-    mataPelajaran: "",
+    siswa: "",
     username: "",
     password: "",
   });
 
-  const handleMultipleSelectMataPelajaran = (data) => {
-    setShowValueMataPelajaran(data);
-    let _tempMataPelajaran = [];
+  const handleMultipleSelectSiswa = (data) => {
+    setShowValueSiswa(data);
+    let _tempSiswa = [];
     data.map((value, index) => {
-      _tempMataPelajaran.push(value?.value);
-      if (_tempMataPelajaran.length > 0) {
-        setForm({ ...form, mataPelajaran: JSON.stringify(_tempMataPelajaran) });
+      _tempSiswa.push(value?.value);
+      if (_tempSiswa.length > 0) {
+        setForm({ ...form, siswa: JSON.stringify(_tempSiswa) });
       }
     });
   };
@@ -46,7 +43,7 @@ const Tambah = ({ dataMataPelajaran }) => {
   const handleSubmit = async () => {
     const response = await create(form);
     if (response?.data?.statusCode === 201) {
-      router.push("/guru");
+      router.push("/orang-tua");
       Swal.fire({
         icon: "success",
         title: "Sukses",
@@ -66,21 +63,6 @@ const Tambah = ({ dataMataPelajaran }) => {
       <div className="max-w-2xl mx-auto">
         <div className="relative z-0 mb-6 w-full group">
           <label
-            htmlFor="nip"
-            className="block text-sm font-medium text-gray-400 mb-2"
-          >
-            NIP
-          </label>
-          <input
-            type="text"
-            name="nip"
-            className="input input-bordered w-full"
-            required
-            onChange={(event) => setForm({ ...form, nip: event.target.value })}
-          />
-        </div>
-        <div className="relative z-0 mb-6 w-full group">
-          <label
             htmlFor="nama"
             className="block text-sm font-medium text-gray-400 mb-2"
           >
@@ -92,44 +74,6 @@ const Tambah = ({ dataMataPelajaran }) => {
             className="input input-bordered w-full"
             required
             onChange={(event) => setForm({ ...form, nama: event.target.value })}
-          />
-        </div>
-        <div className="relative z-0 mb-6 w-full group">
-          <label
-            htmlFor="jenisKelamin"
-            className="block text-sm font-medium text-gray-400 mb-2"
-          >
-            Jenis Kelamin
-          </label>
-          <select
-            type="text"
-            name="jenisKelamin"
-            className="input input-bordered w-full"
-            required
-            onChange={(event) =>
-              setForm({ ...form, jenisKelamin: event.target.value })
-            }
-          >
-            <option value="">Pilih jenis kelamin</option>
-            <option value="L">Laki-laki</option>
-            <option value="P">Perempuan</option>
-          </select>
-        </div>
-        <div className="relative z-0 mb-6 w-full group">
-          <label
-            htmlFor="agama"
-            className="block text-sm font-medium text-gray-400 mb-2"
-          >
-            Agama
-          </label>
-          <input
-            type="text"
-            name="agama"
-            className="input input-bordered w-full"
-            required
-            onChange={(event) =>
-              setForm({ ...form, agama: event.target.value })
-            }
           />
         </div>
         <div className="relative z-0 mb-6 w-full group">
@@ -164,16 +108,16 @@ const Tambah = ({ dataMataPelajaran }) => {
         </div>
         <div className="relative mb-6 w-full group">
           <label
-            htmlFor="mataPelajaran"
+            htmlFor="siswa"
             className="block text-sm font-medium text-gray-400 mb-2"
           >
-            Mata Pelajaran
+            Siswa
           </label>
           <MultiSelect
-            options={optionsMataPelajaran}
-            value={showValueMataPelajaran}
-            onChange={(event) => handleMultipleSelectMataPelajaran(event)}
-            labelledBy="Pilih mata pelajaran"
+            options={optionsSiswa}
+            value={showValueSiswa}
+            onChange={(event) => handleMultipleSelectSiswa(event)}
+            labelledBy="Pilih siswa"
           />
         </div>
         <div className="relative z-0 mb-6 w-full group">
@@ -212,7 +156,7 @@ const Tambah = ({ dataMataPelajaran }) => {
         </div>
         <div className="flex flex-row justify-between">
           <button
-            onClick={() => router.push("/guru")}
+            onClick={() => router.push("/orang-tua")}
             type="button"
             className="btn btn-ghost btn-sm hover:bg-transparent capitalize"
           >
@@ -253,11 +197,11 @@ export async function getServerSideProps({ req }) {
     };
   }
 
-  const response = await getForSelectMataPelajaran(token);
+  const response = await getForSelect(token);
 
   return {
     props: {
-      dataMataPelajaran: response?.data?.data || [],
+      dataSiswa: response?.data?.data || [],
     },
   };
 }

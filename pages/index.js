@@ -113,7 +113,7 @@ const SignIn = () => {
                   <option value="admin">Admin</option>
                   <option value="guru">Guru</option>
                   <option value="siswa">Siswa</option>
-                  <option value="orang-tua">Orang Tua</option>
+                  <option value="orangtua">Orang Tua</option>
                 </select>
               </div>
             </div>

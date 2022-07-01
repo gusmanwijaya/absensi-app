@@ -141,63 +141,78 @@ export default function Navbar() {
               </button>
             </Link>
           </li>
-          <li tabIndex="0">
-            <button className="btn btn-ghost capitalize hover:bg-transparent">
-              Data Master
-            </button>
-            <ul className="p-2 bg-base-100 text-gray-600 z-20">
-              <li>
-                <Link href="/guru">
-                  <button className="btn btn-ghost capitalize hover:bg-transparent">
-                    Guru
-                  </button>
-                </Link>
-              </li>
-              <li>
-                <Link href="/jurusan">
-                  <button className="btn btn-ghost capitalize hover:bg-transparent">
-                    Jurusan
-                  </button>
-                </Link>
-              </li>
-              <li>
-                <Link href="/kelas">
-                  <button className="btn btn-ghost capitalize hover:bg-transparent">
-                    Kelas
-                  </button>
-                </Link>
-              </li>
-              <li>
-                <Link href="/mata-pelajaran">
-                  <button className="btn btn-ghost capitalize hover:bg-transparent">
-                    Mata Pelajaran
-                  </button>
-                </Link>
-              </li>
-              <li>
-                <Link href="/orang-tua">
-                  <button className="btn btn-ghost capitalize hover:bg-transparent">
-                    Orang Tua
-                  </button>
-                </Link>
-              </li>
-              <li>
-                <Link href="/siswa">
-                  <button className="btn btn-ghost capitalize hover:bg-transparent">
-                    Siswa
-                  </button>
-                </Link>
-              </li>
-            </ul>
-          </li>
 
-          <li>
-            <Link href="/absensi">
-              <button className="btn hover:bg-transparent btn-ghost capitalize">
-                Absensi
+          {admin?.role !== "" && admin?.role === "admin" && (
+            <li tabIndex="0">
+              <button className="btn btn-ghost capitalize hover:bg-transparent">
+                Data Master
               </button>
-            </Link>
-          </li>
+              <ul className="p-2 bg-base-100 text-gray-600 z-20">
+                <li>
+                  <Link href="/guru">
+                    <button className="btn btn-ghost capitalize hover:bg-transparent">
+                      Guru
+                    </button>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/jurusan">
+                    <button className="btn btn-ghost capitalize hover:bg-transparent">
+                      Jurusan
+                    </button>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/kelas">
+                    <button className="btn btn-ghost capitalize hover:bg-transparent">
+                      Kelas
+                    </button>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/mata-pelajaran">
+                    <button className="btn btn-ghost capitalize hover:bg-transparent">
+                      Mata Pelajaran
+                    </button>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/orang-tua">
+                    <button className="btn btn-ghost capitalize hover:bg-transparent">
+                      Orang Tua
+                    </button>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/siswa">
+                    <button className="btn btn-ghost capitalize hover:bg-transparent">
+                      Siswa
+                    </button>
+                  </Link>
+                </li>
+              </ul>
+            </li>
+          )}
+
+          {guru?.role !== "" && guru?.role === "guru" && (
+            <li>
+              <Link href="/absensi-guru">
+                <button className="btn hover:bg-transparent btn-ghost capitalize">
+                  Absensi
+                </button>
+              </Link>
+            </li>
+          )}
+
+          {siswa?.role !== "" && siswa?.role === "siswa" && (
+            <li>
+              <Link href="/absensi-siswa">
+                <button className="btn hover:bg-transparent btn-ghost capitalize">
+                  Absensi
+                </button>
+              </Link>
+            </li>
+          )}
 
           <li>
             <Link href="/ubah-password">

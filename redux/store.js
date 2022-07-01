@@ -4,11 +4,21 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import thunkMiddleware from "redux-thunk";
 
 import guruReducers from "./guru/reducers";
+import jurusanReducers from "./jurusan/reducers";
+import kelasReducers from "./kelas/reducers";
+import mataPelajaranReducers from "./mata-pelajaran/reducers";
+import orangTuaReducers from "./orang-tua/reducers";
+import siswaReducers from "./siswa/reducers";
 
 let store;
 
 const reducers = combineReducers({
   guruReducers,
+  jurusanReducers,
+  kelasReducers,
+  mataPelajaranReducers,
+  orangTuaReducers,
+  siswaReducers,
 });
 
 function initStore(initialState) {

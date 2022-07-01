@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import Content from "../../components/Content";
 import { MultiSelect } from "react-multi-select-component";
 import { useRouter } from "next/router";
-import { getForSelectMataPelajaran, create } from "../../services/guru";
+import { getForSelect, create } from "../../services/siswa";
 import jwtDecode from "jwt-decode";
 import Swal from "sweetalert2";
 
-const Tambah = ({ dataMataPelajaran }) => {
+const Tambah = ({ kelas, jurusan, dataMataPelajaran }) => {
   const router = useRouter();
 
   let _tempForOptionsMataPelajaran = [];
@@ -21,12 +21,14 @@ const Tambah = ({ dataMataPelajaran }) => {
   const [showValueMataPelajaran, setShowValueMataPelajaran] = useState([]);
 
   const [form, setForm] = useState({
-    nip: "",
+    nisn: "",
     nama: "",
     jenisKelamin: "",
     agama: "",
     alamat: "",
     noHp: "",
+    kelas: "",
+    jurusan: "",
     mataPelajaran: "",
     username: "",
     password: "",
@@ -46,7 +48,7 @@ const Tambah = ({ dataMataPelajaran }) => {
   const handleSubmit = async () => {
     const response = await create(form);
     if (response?.data?.statusCode === 201) {
-      router.push("/guru");
+      router.push("/siswa");
       Swal.fire({
         icon: "success",
         title: "Sukses",
@@ -66,17 +68,17 @@ const Tambah = ({ dataMataPelajaran }) => {
       <div className="max-w-2xl mx-auto">
         <div className="relative z-0 mb-6 w-full group">
           <label
-            htmlFor="nip"
+            htmlFor="nisn"
             className="block text-sm font-medium text-gray-400 mb-2"
           >
-            NIP
+            NISN
           </label>
           <input
             type="text"
-            name="nip"
+            name="nisn"
             className="input input-bordered w-full"
             required
-            onChange={(event) => setForm({ ...form, nip: event.target.value })}
+            onChange={(event) => setForm({ ...form, nisn: event.target.value })}
           />
         </div>
         <div className="relative z-0 mb-6 w-full group">
@@ -102,7 +104,6 @@ const Tambah = ({ dataMataPelajaran }) => {
             Jenis Kelamin
           </label>
           <select
-            type="text"
             name="jenisKelamin"
             className="input input-bordered w-full"
             required
@@ -162,6 +163,54 @@ const Tambah = ({ dataMataPelajaran }) => {
             onChange={(event) => setForm({ ...form, noHp: event.target.value })}
           />
         </div>
+        <div className="relative z-0 mb-6 w-full group">
+          <label
+            htmlFor="kelas"
+            className="block text-sm font-medium text-gray-400 mb-2"
+          >
+            Kelas
+          </label>
+          <select
+            name="kelas"
+            className="input input-bordered w-full"
+            required
+            onChange={(event) =>
+              setForm({ ...form, kelas: event.target.value })
+            }
+          >
+            <option value="">Pilih kelas</option>
+            {kelas.length > 0 &&
+              kelas.map((value, index) => (
+                <option key={index} value={value?._id}>
+                  {value?.nama}
+                </option>
+              ))}
+          </select>
+        </div>
+        <div className="relative z-0 mb-6 w-full group">
+          <label
+            htmlFor="jurusan"
+            className="block text-sm font-medium text-gray-400 mb-2"
+          >
+            Jurusan
+          </label>
+          <select
+            name="jurusan"
+            className="input input-bordered w-full"
+            required
+            onChange={(event) =>
+              setForm({ ...form, jurusan: event.target.value })
+            }
+          >
+            <option value="">Pilih jurusan</option>
+            {jurusan.length > 0 &&
+              jurusan.map((value, index) => (
+                <option key={index} value={value?._id}>
+                  {value?.nama}
+                </option>
+              ))}
+          </select>
+        </div>
         <div className="relative mb-6 w-full group">
           <label
             htmlFor="mataPelajaran"
@@ -212,7 +261,7 @@ const Tambah = ({ dataMataPelajaran }) => {
         </div>
         <div className="flex flex-row justify-between">
           <button
-            onClick={() => router.push("/guru")}
+            onClick={() => router.push("/siswa")}
             type="button"
             className="btn btn-ghost btn-sm hover:bg-transparent capitalize"
           >
@@ -253,11 +302,13 @@ export async function getServerSideProps({ req }) {
     };
   }
 
-  const response = await getForSelectMataPelajaran(token);
+  const response = await getForSelect(token);
 
   return {
     props: {
-      dataMataPelajaran: response?.data?.data || [],
+      kelas: response?.data?.data?.kelas || [],
+      jurusan: response?.data?.data?.jurusan || [],
+      dataMataPelajaran: response?.data?.data?.mataPelajaran || [],
     },
   };
 }
