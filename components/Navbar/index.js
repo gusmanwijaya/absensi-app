@@ -129,7 +129,7 @@ export default function Navbar() {
           type="button"
           className="btn btn-ghost normal-case text-xl hover:bg-transparent"
         >
-          Sistem Informasi Absensi
+          Sistem Informasi Presensi
         </a>
       </div>
       <div className="flex-none">
@@ -199,7 +199,7 @@ export default function Navbar() {
               <li>
                 <Link href="/absensi-guru">
                   <button className="btn hover:bg-transparent btn-ghost capitalize">
-                    Absensi
+                    Presensi
                   </button>
                 </Link>
               </li>
@@ -213,15 +213,15 @@ export default function Navbar() {
             </>
           )}
 
-          {siswa?.role !== "" && siswa?.role === "siswa" && (
+          {/* {siswa?.role !== "" && siswa?.role === "siswa" && (
             <li>
               <Link href="/absensi-siswa">
                 <button className="btn hover:bg-transparent btn-ghost capitalize">
-                  Absensi
+                  Presensi
                 </button>
               </Link>
             </li>
-          )}
+          )} */}
 
           <li>
             <Link href="/ubah-password">

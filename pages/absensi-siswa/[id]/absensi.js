@@ -13,13 +13,13 @@ const Absensi = ({ params }) => {
   }-${moment().get("year")}`;
 
   return (
-    <Content title="Absensi">
+    <Content title="Presensi">
       <div className="flex flex-col justify-center items-center my-24 space-y-10">
         <QRCodeSVG
           size={256}
           value={`${ROOT_API}/${API}/absensi/qr-code?tanggal=${tanggal}&mataPelajaran=${params?.id}`}
         />
-        <p>Silahkan scan untuk melakukan absen!</p>
+        <p>Silahkan scan untuk melakukan presensi!</p>
       </div>
     </Content>
   );

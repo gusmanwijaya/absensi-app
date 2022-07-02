@@ -9,7 +9,7 @@ const AbsensiGuru = ({ mataPelajaran }) => {
   const router = useRouter();
 
   return (
-    <Content title="Mata Kuliah Absensi">
+    <Content title="Mata Pelajaran Presensi">
       <div className="h-full overflow-y-auto">
         <div className="container px-6 mx-auto grid">
           <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
@@ -24,7 +24,7 @@ const AbsensiGuru = ({ mataPelajaran }) => {
                       Swal.fire({
                         icon: "error",
                         title: "Oops...",
-                        text: `Anda sudah melakukan absensi untuk mata pelajaran ${value?.nama} hari ini!`,
+                        text: `Anda sudah melakukan presensi untuk mata pelajaran ${value?.nama} hari ini!`,
                       });
                     } else {
                       router.push(`/absensi-guru/${value?._id}/absensi`);

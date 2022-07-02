@@ -8,7 +8,7 @@ const HistoryAbsensi = ({ mataPelajaran }) => {
   const router = useRouter();
 
   return (
-    <Content title="Mata Kuliah History Absensi">
+    <Content title="Mata Pelajaran History Presensi">
       <div className="h-full overflow-y-auto">
         <div className="container px-6 mx-auto grid">
           <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">

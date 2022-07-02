@@ -224,7 +224,7 @@ const Dashboard = ({ users, dataDashboard }) => {
                   </div>
                   <div>
                     <p className="mb-2 text-sm font-medium text-gray-600">
-                      Absensi
+                      Presensi
                     </p>
                     <p className="text-lg font-semibold text-gray-700">
                       {dataDashboard?.absensi}
@@ -487,7 +487,7 @@ const Dashboard = ({ users, dataDashboard }) => {
             >
               <div className="rounded-t mb-0 px-4 py-3 border-0">
                 <div className="flex flex-row">
-                  <h1>History Absensi</h1>
+                  <h1>History Presensi</h1>
                 </div>
               </div>
               <div className="block w-full overflow-x-auto">
@@ -556,7 +556,7 @@ const Dashboard = ({ users, dataDashboard }) => {
             >
               <div className="rounded-t mb-0 px-4 py-3 border-0">
                 <div className="flex flex-row">
-                  <h1>History Absensi Siswa</h1>
+                  <h1>History Presensi Siswa</h1>
                 </div>
               </div>
               <div className="block w-full overflow-x-auto">

@@ -9,7 +9,7 @@ const Pertemuan = ({ pertemuan, params }) => {
   const router = useRouter();
 
   return (
-    <Content title="Pertemuan History Absensi">
+    <Content title="Pertemuan History Presensi">
       {pertemuan.length > 0 ? (
         <div className="h-full overflow-y-auto">
           <div className="container px-6 mx-auto grid">

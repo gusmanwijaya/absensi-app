@@ -43,7 +43,7 @@ const Absensi = ({ dataSiswa, params, users }) => {
         Swal.fire({
           icon: "success",
           title: "Sukses",
-          text: `${response?.data?.message || "Absen berhasil disimpan!"}`,
+          text: `${response?.data?.message || "Presensi berhasil disimpan!"}`,
         });
         router.push("/absensi-guru");
       } else {
@@ -57,13 +57,13 @@ const Absensi = ({ dataSiswa, params, users }) => {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: `Silahkan lengkapi absensi siswa`,
+        text: `Silahkan lengkapi presensi siswa`,
       });
     }
   };
 
   return (
-    <Content title="Absensi">
+    <Content title="Presensi">
       {dataSiswa.length > 0 ? (
         <div
           className={
