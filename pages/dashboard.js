@@ -478,6 +478,154 @@ const Dashboard = ({ users, dataDashboard }) => {
               </>
             )}
           </div>
+
+          {users?.role === "siswa" && dataDashboard?.history.length > 0 && (
+            <div
+              className={
+                "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-xl bg-white"
+              }
+            >
+              <div className="rounded-t mb-0 px-4 py-3 border-0">
+                <div className="flex flex-row">
+                  <h1>History Absensi</h1>
+                </div>
+              </div>
+              <div className="block w-full overflow-x-auto">
+                {/* Projects table */}
+                <table className="items-center w-full bg-transparent border-collapse">
+                  <thead>
+                    <tr>
+                      <th
+                        className={
+                          "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100"
+                        }
+                      >
+                        Tanggal
+                      </th>
+                      <th
+                        className={
+                          "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100"
+                        }
+                      >
+                        Pertemuan
+                      </th>
+                      <th
+                        className={
+                          "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100"
+                        }
+                      >
+                        Mata Pelajaran
+                      </th>
+                      <th
+                        className={
+                          "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100"
+                        }
+                      >
+                        Keterangan
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {dataDashboard?.history.map((value, index) => (
+                      <tr key={index}>
+                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                          {value?.tanggal}
+                        </td>
+                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                          {value?.pertemuan}
+                        </td>
+                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                          {`${value?.mataPelajaran?.kode} - ${value?.mataPelajaran?.nama}`}
+                        </td>
+                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                          {value?.keterangan}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {users?.role === "orangtua" && dataDashboard?.absensi.length > 0 && (
+            <div
+              className={
+                "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-xl bg-white"
+              }
+            >
+              <div className="rounded-t mb-0 px-4 py-3 border-0">
+                <div className="flex flex-row">
+                  <h1>History Absensi Siswa</h1>
+                </div>
+              </div>
+              <div className="block w-full overflow-x-auto">
+                {/* Projects table */}
+                <table className="items-center w-full bg-transparent border-collapse">
+                  <thead>
+                    <tr>
+                      <th
+                        className={
+                          "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100"
+                        }
+                      >
+                        Tanggal
+                      </th>
+                      <th
+                        className={
+                          "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100"
+                        }
+                      >
+                        Pertemuan
+                      </th>
+                      <th
+                        className={
+                          "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100"
+                        }
+                      >
+                        Mata Pelajaran
+                      </th>
+                      <th
+                        className={
+                          "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100"
+                        }
+                      >
+                        Siswa
+                      </th>
+                      <th
+                        className={
+                          "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-blueGray-50 text-blueGray-500 border-blueGray-100"
+                        }
+                      >
+                        Keterangan
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {dataDashboard?.absensi.map((value, index) => (
+                      <tr key={index}>
+                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                          {value?.tanggal}
+                        </td>
+                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                          {value?.pertemuan}
+                        </td>
+                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                          {`${value?.mataPelajaran?.kode} - ${value?.mataPelajaran?.nama}`}
+                        </td>
+                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                          {`${value?.siswa?.nisn} - ${value?.siswa?.nama}`}
+                        </td>
+                        <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                          {value?.keterangan}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </Content>
