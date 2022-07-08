@@ -125,12 +125,20 @@ export default function Navbar() {
       style={{ backgroundColor: "#646FD4" }}
     >
       <div className="flex-1">
-        <a
+        {/* <a
           type="button"
           className="btn btn-ghost normal-case text-xl hover:bg-transparent"
         >
           Sistem Informasi Presensi
-        </a>
+        </a> */}
+        <div className="flex flex-row items-center justify-start space-x-4">
+          <img
+            className="mx-auto h-12 w-auto"
+            src="/img/logo.png"
+            alt="Workflow"
+          />
+          <span>Sistem Informasi Presensi</span>
+        </div>
       </div>
       <div className="flex-none">
         <ul className="menu menu-horizontal p-0">
