@@ -144,10 +144,20 @@ const MataPelajaran = () => {
                       {value?.sks}
                     </td>
                     <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      {value?.kelas?.nama}
+                      {value?.kelas.length > 0 &&
+                        value?.kelas.map(
+                          (result, index) =>
+                            result?.nama +
+                            `${index !== value?.kelas.length - 1 ? ", " : ""}`
+                        )}
                     </td>
                     <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                      {value?.jurusan?.nama}
+                      {value?.jurusan.length > 0 &&
+                        value?.jurusan.map(
+                          (result, index) =>
+                            result?.nama +
+                            `${index !== value?.jurusan.length - 1 ? ", " : ""}`
+                        )}
                     </td>
                     <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center space-x-1">
                       <button
@@ -188,6 +198,13 @@ const MataPelajaran = () => {
             className="w-1/2 h-1/2 object-cover"
           />
           <p className="text-slate-500">Oops, nampaknya data masih kosong!</p>
+          <button
+            type="button"
+            className="btn btn-primary btn-sm"
+            onClick={() => router.push("/mata-pelajaran/tambah")}
+          >
+            Tambah
+          </button>
         </div>
       )}
     </Content>

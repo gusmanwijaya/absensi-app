@@ -173,6 +173,13 @@ const OrangTua = () => {
             className="w-1/2 h-1/2 object-cover"
           />
           <p className="text-slate-500">Oops, nampaknya data masih kosong!</p>
+          <button
+            type="button"
+            className="btn btn-primary btn-sm"
+            onClick={() => router.push("/orang-tua/tambah")}
+          >
+            Tambah
+          </button>
         </div>
       )}
     </Content>
